@@ -1,13 +1,5 @@
 package com.company;
 
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartUtilities;
-import org.jfree.chart.JFreeChart;
-import org.jfree.data.xy.XYDataset;
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
-
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,7 +18,7 @@ public class Main {
             arr[i] = zufalligenPositiveNegativWerte(9, 25);
 
         }
-
+/*
         JFreeChart charto = ChartFactory.createXYLineChart("Temp", "Days", "Temp in C`", theSet(arr));
         try {
             ChartUtilities.saveChartAsJPEG(new File("/home/fam/Desktop/'" + formatter.format(date) + ".jpeg"), charto, 700, 700);
@@ -35,6 +27,7 @@ public class Main {
 
             e.printStackTrace();
         }
+  */
         System.out.println("Temp Werte");
         System.out.println(Arrays.toString(arr));
 
@@ -52,7 +45,7 @@ public class Main {
 
     }
 
-    public static XYDataset theSet(int[] data) {
+   /* public static XYDataset theSet(int[] data) {
         List gleitenderMittelwert = new ArrayList();
         gleitenderMittelwert = gleitenderMittelwert(data, 5);
         XYSeriesCollection dataset = new XYSeriesCollection();
@@ -68,7 +61,7 @@ public class Main {
         }
         dataset.addSeries(series2);
         return dataset;
-    }
+    }*/
 
     public static List gleitenderMittelwert(int[] werte, int fenster) {
         List data = new ArrayList();
@@ -151,24 +144,18 @@ public class Main {
             int befor = wert[0];
             int pointer = 0;
             int next = 0;
-            //  System.out.println(wert.length);
             for (int i = 1; i < wert.length; i++) {
-                //System.out.println("Befor : " + befor);
                 pointer = wert[i];
-                //System.out.println(i + " pointer " + pointer);
 
                 if (wert.length > (i + 1)) {
                     next = wert[i + 1];
-                    //System.out.println("next : " + next);
                 } else {
-                    // System.out.println("last one .... no next  " + next);
                 }
                 if (pointer >= befor) {
-                    //System.out.println("the is wert is bigger go next");
 
 
                     if (pointer > next) {
-                        // System.out.println("yooo we go a locales maximum " + pointer);
+
                         werte.add(pointer);
                         stelle.add(i);
                         System.out.println("Stelle " + i + "    Wert " + pointer);
