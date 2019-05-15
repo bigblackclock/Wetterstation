@@ -1,26 +1,43 @@
 package com.company;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartUtilities;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.xy.XYDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
+
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) {
-
+        SimpleDateFormat formatter = new SimpleDateFormat("ddMMyyyy-HHmmss");
+        Date date = new Date();
 
         int[] arr = new int[30];
-        int[] data = {1, 2, 3, 4, 5, 3, 2, 1, 9, 10, 6, 2, 1};
+
         for (int i = 0; i < arr.length; i++) {
-            arr[i] = zufalligenPositiveNegativWerte(-12, 12);
+            arr[i] = zufalligenPositiveNegativWerte(9, 25);
 
+        }
 
+        JFreeChart charto = ChartFactory.createXYLineChart("Temp", "Days", "Temp in C`", theSet(arr));
+        try {
+            ChartUtilities.saveChartAsJPEG(new File("/home/fam/Desktop/'" + formatter.format(date) + ".jpeg"), charto, 700, 700);
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
         }
         System.out.println("Temp Werte");
         System.out.println(Arrays.toString(arr));
 
-
-        //  int[] wert = {1,1,0,1,6,1,12,3,17,8,5,6,6,6,7,14,2,2,3,5,6,4,8};
 
         System.out.println("Tage mit Frost    " + tagenMitFrost(arr));
         System.out.println("Minimum Temp      " + minimumWert(arr));
@@ -28,8 +45,49 @@ public class Main {
         System.out.println("Temp Schwankung   " + tempSchwankung(arr));
         System.out.println("Cel to Fahr       " + Arrays.toString(celsiusArrayZoFahrenheit(arr)));
         System.out.println("locales Maxium");
+        System.out.println();
         localMax(arr);
+        System.out.println(gleitenderMittelwert(arr, 5));
 
+
+    }
+
+    public static XYDataset theSet(int[] data) {
+        List gleitenderMittelwert = new ArrayList();
+        gleitenderMittelwert = gleitenderMittelwert(data, 5);
+        XYSeriesCollection dataset = new XYSeriesCollection();
+        XYSeries series1 = new XYSeries("TEMP DATA");
+        XYSeries series2 = new XYSeries("GMW DATA");
+        for (int i = 0; i < data.length; i++) {
+            series1.add(i, data[i]);
+        }
+
+        dataset.addSeries(series1);
+        for (int i = 0; i < gleitenderMittelwert.size(); i++) {
+            series2.add(Double.valueOf(i), (Number) gleitenderMittelwert.get(i));
+        }
+        dataset.addSeries(series2);
+        return dataset;
+    }
+
+    public static List gleitenderMittelwert(int[] werte, int fenster) {
+        List data = new ArrayList();
+        double resualt = 0;
+        for (int i = 0; i < werte.length; i++) {
+            for (int o = 0; o < fenster; o++) {
+
+                if (o + i < werte.length) {
+                    resualt = resualt + werte[i + o];
+                }
+            }
+
+
+            resualt = Math.round(resualt / fenster * 100.00) / 100.00;
+            data.add(resualt);
+
+        }
+
+        return data;
     }
 
 
