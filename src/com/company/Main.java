@@ -1,5 +1,13 @@
 package com.company;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartUtilities;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.xy.XYDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
+
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,7 +26,7 @@ public class Main {
             arr[i] = zufalligenPositiveNegativWerte(9, 25);
 
         }
-/*
+
         JFreeChart charto = ChartFactory.createXYLineChart("Temp", "Days", "Temp in C`", theSet(arr));
         try {
             ChartUtilities.saveChartAsJPEG(new File("/home/fam/Desktop/'" + formatter.format(date) + ".jpeg"), charto, 700, 700);
@@ -27,7 +35,7 @@ public class Main {
 
             e.printStackTrace();
         }
-  */
+
         System.out.println("Temp Werte");
         System.out.println(Arrays.toString(arr));
 
@@ -45,7 +53,7 @@ public class Main {
 
     }
 
-   /* public static XYDataset theSet(int[] data) {
+    public static XYDataset theSet(int[] data) {
         List gleitenderMittelwert = new ArrayList();
         gleitenderMittelwert = gleitenderMittelwert(data, 5);
         XYSeriesCollection dataset = new XYSeriesCollection();
@@ -61,12 +69,13 @@ public class Main {
         }
         dataset.addSeries(series2);
         return dataset;
-    }*/
+    }
 
     public static List gleitenderMittelwert(int[] werte, int fenster) {
         List data = new ArrayList();
-        double resualt = 0;
+
         for (int i = 0; i < werte.length; i++) {
+            double resualt = 0;
             for (int o = 0; o < fenster; o++) {
 
                 if (o + i < werte.length) {
@@ -126,7 +135,7 @@ public class Main {
     public static double[] celsiusArrayZoFahrenheit(int[] array) {
         double[] fahrenheitArray = new double[array.length];
         for (int i = 0; i < array.length; i++) {
-            fahrenheitArray[i] = (array[i] * (9.0 / 5.0) + 32.0);
+            fahrenheitArray[i] = Math.round((array[i] * (9.0 / 5.0) + 32.0) * 100.00) / 100.00;
         }
         return fahrenheitArray;
     }
